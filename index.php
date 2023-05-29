@@ -22,8 +22,8 @@ if(!isset($_SESSION["login"])) {
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="../focie">
-                <img width="30" height="30" src="favicon.ico">
-                <?php echo $title." - ".$_SESSION["login"];?>
+                <img width="30" src="favicon.ico">
+                <?php echo $title;?>
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

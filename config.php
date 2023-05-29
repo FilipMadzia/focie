@@ -2,6 +2,6 @@
 $title = "Focie";
 
 $hostname = "localhost";
-$username = "root";
-$password = "";
+$db_username = "root";
+$db_password = "";
 $database = "focie_db";

@@ -3,3 +3,7 @@
 * {
     font-family: "MuseoModerno";
 }
+
+.error-message {
+    color: red;
+}

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 29 Maj 2023, 18:27
+-- Czas generowania: 29 Maj 2023, 22:58
 -- Wersja serwera: 10.4.24-MariaDB
 -- Wersja PHP: 8.1.5
 
@@ -34,6 +34,13 @@ CREATE TABLE `album` (
   `id_fociarz` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Zrzut danych tabeli `album`
+--
+
+INSERT INTO `album` (`id_album`, `nazwa`, `data_utworzenia`, `id_fociarz`) VALUES
+(1, 'Testowy album', '2023-05-29 18:29:11', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -44,15 +51,16 @@ CREATE TABLE `fociarz` (
   `id_fociarz` int(11) NOT NULL,
   `login` varchar(32) DEFAULT NULL,
   `email` varchar(32) DEFAULT NULL,
-  `haslo` varchar(32) DEFAULT NULL
+  `haslo` varchar(32) DEFAULT NULL,
+  `data_utworzenia` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `fociarz`
 --
 
-INSERT INTO `fociarz` (`id_fociarz`, `login`, `email`, `haslo`) VALUES
-(1, 'test', 'test@test', 'test');
+INSERT INTO `fociarz` (`id_fociarz`, `login`, `email`, `haslo`, `data_utworzenia`) VALUES
+(1, 'test', 'test@test', 'test', '2023-05-29');
 
 -- --------------------------------------------------------
 
@@ -66,6 +74,15 @@ CREATE TABLE `zdjecie` (
   `data_dodania` datetime DEFAULT NULL,
   `id_album` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `zdjecie`
+--
+
+INSERT INTO `zdjecie` (`id_zdjecie`, `nazwa`, `data_dodania`, `id_album`) VALUES
+(1, 'gandalf_murzyn.png', '2023-05-29 18:30:03', 1),
+(2, 'gandalf_in_da_hood.png', '2023-05-29 18:31:40', 1),
+(3, 'gandalf_koguci_w_nocy_cie_okoguci.png', '2023-05-29 18:31:57', 1);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -99,7 +116,7 @@ ALTER TABLE `zdjecie`
 -- AUTO_INCREMENT dla tabeli `album`
 --
 ALTER TABLE `album`
-  MODIFY `id_album` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_album` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT dla tabeli `fociarz`
@@ -111,7 +128,7 @@ ALTER TABLE `fociarz`
 -- AUTO_INCREMENT dla tabeli `zdjecie`
 --
 ALTER TABLE `zdjecie`
-  MODIFY `id_zdjecie` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_zdjecie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Ograniczenia dla zrzutów tabel

@@ -22,43 +22,29 @@ if(isset($_SESSION["error_message"])) {
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-    <!-- logowanie -->
+    <!-- rejestracja -->
     <?php
-    if(isset($_POST["login"]) && isset($_POST["password"])) {
-        // zmienna login może też przechowywać email
-        $login = $_POST["login"];
-        $password = $_POST["password"];
-
-        $conn = mysqli_connect($hostname, $db_username, $db_password, $database);
-
-        $result = mysqli_query($conn, "SELECT login, haslo FROM fociarz WHERE (login = '$login' OR email = '$login') AND haslo = '$password'");
-        if(mysqli_num_rows($result) == 1) {
-            $row = mysqli_fetch_array($result);
-
-            $_SESSION["login"] = $row['login'];
-            header("Location: ../../focie");
-        }
-        else {
-            $_SESSION["error_message"] = "Nieprawidłowy login bądź hasło!";
-        }
-
-        mysqli_close($conn);
-    }
+    
     ?>
 
     <div class="container">
-        <form class="row justify-content-center" method="post">
+        <form class="row justify-content-center" method="post" enctype="multipart/form-data">
             <div class="mt-5 col-lg-4 col-md-6 col-sm-12">
                 <h1 class="text-center">
                     <img width="60px" src="../favicon.ico">
-                    <?php echo $title." - logowanie";?>
+                    <?php echo $title." - rejestracja";?>
                 </h1>
 
-                <p class="form-text text-muted">Zaloguj się za pomocą tych samych danych, które podałeś podczas rejestracji</p>
+                <p class="form-text text-muted">Rejestrując konto na naszej stronie potwierdzasz, że przeczytałeś i akceptujesz nasze <a href="https://youtu.be/dQw4w9WgXcQ" target="_blank">warunki usługi</a></p>
 
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control" name="login" id="login" placeholder="login" required autofocus>
-                    <label for="login">Login lub adres email</label>
+                    <label for="login">Login</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="email" required>
+                    <label for="lemailogin">Email</label>
                 </div>
 
                 <div class="form-floating mb-3">
@@ -66,10 +52,19 @@ if(isset($_SESSION["error_message"])) {
                     <label for="password">Hasło</label>
                 </div>
 
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" name="password_repeat" id="password_repeat" placeholder="hasło" required>
+                    <label for="password_repeat">Powtórz hasło</label>
+                </div>
+
+                <div class="mb-3">
+                    <input class="form-control" type="file" id="formFile">
+                </div>
+
                 <p class="error-message"><?php if(isset($_SESSION["error_message"])) echo $_SESSION["error_message"];?></p>
 
                 <button type="submit" class="form-control btn btn-primary">Zaloguj</button>
-                <p class="form-text text-muted">Nie masz jeszcze konta? Kliknij <a href="../rejestracja">tutaj</a> aby się zarejestrować</p>
+                <p class="form-text text-muted">Masz już konto? Kliknij <a href="../logowanie">tutaj</a> aby się zalogować</p>
             </div>
         </form>
     </div>

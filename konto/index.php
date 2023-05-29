@@ -52,6 +52,16 @@ if(isset($_SESSION["error_message"])) {
     $result = mysqli_query($conn, "SELECT * FROM fociarz WHERE login = '$_SESSION[login]'");
     if(mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_array($result);
+
+        // ilość stworzonych albumów
+        $result = mysqli_query($conn, "SELECT COUNT(a.id_album) AS ilosc_albumow FROM fociarz f, album a WHERE f.login = '$_SESSION[login]' AND a.id_fociarz = f.id_fociarz;");
+        $album_count = mysqli_fetch_array($result);
+        $album_count = $album_count["ilosc_albumow"];
+
+        // ilosc przesłanych zdjęć
+        $result = mysqli_query($conn, "SELECT COUNT(z.id_zdjecie) AS ilosc_zdjec FROM fociarz f, album a, zdjecie z WHERE f.login = '$_SESSION[login]' AND z.id_album = a.id_album AND a.id_fociarz = f.id_fociarz;");
+        $photo_count = mysqli_fetch_array($result);
+        $photo_count = $photo_count["ilosc_zdjec"];
         ?>
         <div class="container">
             <div class="row mt-5">
@@ -66,8 +76,8 @@ if(isset($_SESSION["error_message"])) {
 
                     <div class="divider"></div>
 
-                    <h3><span class="text-muted">Ilość utworzonych albumów: </span></h3>
-                    <h3><span class="text-muted">Ilość przesłanych zdjęć: </span></h3>
+                    <h3><span class="text-muted">Ilość utworzonych albumów: </span><?php echo $album_count;?></h3>
+                    <h3><span class="text-muted">Ilość przesłanych zdjęć: </span><?php echo $photo_count;?></h3>
 
                     <a class="btn btn-primary" href="../wyloguj">Wyloguj się</a>
                 </div>

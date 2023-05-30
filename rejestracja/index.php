@@ -44,7 +44,7 @@ if(isset($_SESSION["error_message"])) {
 
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control" name="email" id="email" placeholder="email" required>
-                    <label for="lemailogin">Email</label>
+                    <label for="email">Email</label>
                 </div>
 
                 <div class="form-floating mb-3">
@@ -58,16 +58,31 @@ if(isset($_SESSION["error_message"])) {
                 </div>
 
                 <div class="mb-3">
-                    <input class="form-control" type="file" id="formFile">
+                    <input class="form-control" type="file" id="profile-picture" required>
+                    <img width="100%" id="profile-picture-preview">
                 </div>
+
 
                 <p class="error-message"><?php if(isset($_SESSION["error_message"])) echo $_SESSION["error_message"];?></p>
 
-                <button type="submit" class="form-control btn btn-primary">Zaloguj</button>
+                <button type="submit" class="form-control btn btn-primary">Zarejestruj</button>
                 <p class="form-text text-muted">Masz już konto? Kliknij <a href="../logowanie">tutaj</a> aby się zalogować</p>
             </div>
         </form>
     </div>
+
+    <script>
+        const profile_picture = document.querySelector("#profile-picture");
+        const profile_picture_preview = document.querySelector("#profile-picture-preview");
+
+        profile_picture.addEventListener("input", () => {
+            const [file] = profile_picture.files;
+
+            if(file) {
+                profile_picture_preview.src = URL.createObjectURL(file);
+            }
+        });
+    </script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>

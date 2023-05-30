@@ -1,9 +1,6 @@
 <?php
 session_start();
+session_destroy();
 
-if(isset($_SESSION["login"])) {
-    session_destroy();
-}
-
-header("Location: ../../focie");
+header("Location: ../logowanie");
 ?>

@@ -44,4 +44,9 @@
     bottom: 20px;
     left: 50%;
     transform: translate(-50%, 0);
+    color: black;
+}
+
+.album-link:hover p {
+    color: white;
 }

@@ -33,24 +33,29 @@ if(isset($_SESSION["error_message"])) {
         if($password == $password_repeat) {
             $conn = mysqli_connect($hostname, $db_username, $db_password, $database);
 
-            // sprawdzanie, czy login jest unikalny
-            $login_result = mysqli_query($conn, "SELECT login FROM fociarz WHERE login = '$login'");
-            $login_row = mysqli_fetch_array($login_result);
+            if(strtolower(pathinfo(basename($_FILES["profile-picture"]["name"]), PATHINFO_EXTENSION)) == "jpg" || strtolower(pathinfo(basename($_FILES["profile-picture"]["name"]), PATHINFO_EXTENSION)) == "png") {
+                // sprawdzanie, czy login jest unikalny
+                $login_result = mysqli_query($conn, "SELECT login FROM fociarz WHERE login = '$login'");
+                $login_row = mysqli_fetch_array($login_result);
 
-            if(mysqli_num_rows($login_result) == 0) {
-                $register_query = mysqli_query($conn, "INSERT INTO fociarz(login, email, haslo, data_utworzenia) VALUES('$login', '$email', '$password', NOW());");
-                mkdir("../fociarz/".$login);
+                if(mysqli_num_rows($login_result) == 0) {
+                    $register_query = mysqli_query($conn, "INSERT INTO fociarz(login, email, haslo, data_utworzenia) VALUES('$login', '$email', '$password', NOW());");
+                    mkdir("../fociarz/".$login);
 
-                // zapisanie zdjęcia profilowego
-                move_uploaded_file($_FILES["profile-picture"]["tmp_name"], "../fociarz/".$login."/profilowe.png");
+                    // zapisanie zdjęcia profilowego
+                    move_uploaded_file($_FILES["profile-picture"]["tmp_name"], "../fociarz/".$login."/profilowe.png");
 
-                header("Location: ../logowanie");
+                    header("Location: ../logowanie");
+                }
+                else {
+                    $_SESSION["error_message"] = "Login jest już zajęty";
+                }
+
+                mysqli_close($conn);
             }
             else {
-                $_SESSION["error_message"] = "Login jest już zajęty";
+                $_SESSION["error_message"] = "Plik w nieprawidłowym formacie";
             }
-
-            mysqli_close($conn);
         }
         else {
             $_SESSION["error_message"] = "Hasła nie są identyczne";
@@ -113,6 +118,9 @@ if(isset($_SESSION["error_message"])) {
                 profile_picture_preview.src = URL.createObjectURL(file);
             }
         });
+        if(window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
     </script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

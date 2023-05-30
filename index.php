@@ -52,6 +52,8 @@ if(!isset($_SESSION["login"])) {
         $new_album_query = mysqli_query($conn, "INSERT INTO album(nazwa, data_utworzenia, id_fociarz) VALUES('$name', NOW(), (SELECT id_fociarz FROM fociarz WHERE login = '$_SESSION[login]'));");
 
         mysqli_close($conn);
+
+        mkdir("fociarz/".$_SESSION["login"]."/".$name);
     }
     ?>
     
@@ -83,8 +85,10 @@ if(!isset($_SESSION["login"])) {
             while($row = mysqli_fetch_array($result)) {
                 ?>
                 <div class="folder col-lg-2 col-md-3 col-sm-6">
-                    <img width="100%" src="ikony/folder.svg">
-                    <p class="folder-name"><?php echo $row["nazwa"];?></p>
+                    <a class="album-link" href="album?nazwa=<?php echo $row['nazwa'];?>">
+                        <img width="100%" src="ikony/folder.svg">
+                        <p class="folder-name"><?php echo $row["nazwa"];?></p>
+                    </a>
                 </div>
                 <?php
             }

@@ -36,8 +36,15 @@ if(isset($_SESSION["error_message"])) {
             // sprawdzanie, czy login jest unikalny
             $login_result = mysqli_query($conn, "SELECT login FROM fociarz WHERE login = '$login'");
             $login_row = mysqli_fetch_array($login_result);
+
             if(mysqli_num_rows($login_result) == 0) {
-                
+                $register_query = mysqli_query($conn, "INSERT INTO fociarz(login, email, haslo, data_utworzenia) VALUES('$login', '$email', '$password', NOW());");
+                mkdir("../fociarz/".$login);
+
+                // zapisanie zdjęcia profilowego
+                move_uploaded_file($_FILES["profile-picture"]["tmp_name"], "../fociarz/".$login."/profilowe.png");
+
+                header("Location: ../logowanie");
             }
             else {
                 $_SESSION["error_message"] = "Login jest już zajęty";
@@ -70,12 +77,12 @@ if(isset($_SESSION["error_message"])) {
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control" name="password" id="password" placeholder="hasło" minlength="8" required>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="hasło" minlength="5" required>
                     <label for="password">Hasło</label>
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control" name="password_repeat" id="password_repeat" placeholder="hasło" minlength="8" required>
+                    <input type="password" class="form-control" name="password_repeat" id="password_repeat" placeholder="hasło" minlength="5" required>
                     <label for="password_repeat">Powtórz hasło</label>
                 </div>
                 
@@ -83,7 +90,7 @@ if(isset($_SESSION["error_message"])) {
 
                 <div class="mb-3">
                     <label for="profile-picture">Wybierz zdjęcie profilowe</label>
-                    <input class="form-control" type="file" id="profile-picture" required>
+                    <input class="form-control" type="file" name="profile-picture" id="profile-picture" required>
                     <img class="mt-3 profile-picture" width="100%" id="profile-picture-preview" src="../default-profile.png">
                 </div>
 

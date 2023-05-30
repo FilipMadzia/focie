@@ -19,3 +19,21 @@
     height: 3px;
     background-color: #6c757d;
 }
+
+.folder {
+    cursor: pointer;
+}
+
+#new-folder {
+    display: none;
+    height: 175px;
+    box-shadow: 0 0 20px #4e4e4e;
+    background-color: #ffffff;
+}
+
+
+#close-button {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+}

@@ -49,6 +49,8 @@ if(isset($_SESSION["error_message"])) {
             else {
                 $_SESSION["error_message"] = "Login jest już zajęty";
             }
+
+            mysqli_close($conn);
         }
         else {
             $_SESSION["error_message"] = "Hasła nie są identyczne";
@@ -77,12 +79,12 @@ if(isset($_SESSION["error_message"])) {
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control" name="password" id="password" placeholder="hasło" minlength="5" required>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="hasło" minlength="4" required>
                     <label for="password">Hasło</label>
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control" name="password_repeat" id="password_repeat" placeholder="hasło" minlength="5" required>
+                    <input type="password" class="form-control" name="password_repeat" id="password_repeat" placeholder="hasło" minlength="4" required>
                     <label for="password_repeat">Powtórz hasło</label>
                 </div>
                 

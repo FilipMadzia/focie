@@ -42,7 +42,65 @@ if(!isset($_SESSION["login"])) {
             </div>
         </div>
     </nav>
+
+    <!-- dodawanie albumów -->
+    <?php
+    if(isset($_POST["name"])) {
+        $conn = mysqli_connect($hostname, $db_username, $db_password, $database);
+        $name = $_POST["name"];
+
+        $new_album_query = mysqli_query($conn, "INSERT INTO album(nazwa, data_utworzenia, id_fociarz) VALUES('$name', NOW(), (SELECT id_fociarz FROM fociarz WHERE login = '$_SESSION[login]'));");
+
+        mysqli_close($conn);
+    }
+    ?>
     
+    <div class="container">
+        <div class="row">
+            <!-- ukryte okno do tworzenia albumu -->
+            <div class="position-absolute col-lg-2 col-md-6 col-sm-12 top-50 start-50 translate-middle" id="new-folder">
+                <img id="close-button" src="ikony/zamknij.svg" alt="Zamknij">
+                <h3>Nazwa albumu</h3>
+
+                <form method="post">
+                    <div class="form-floating mt-3 mb-3">
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Nazwa albumu" required>
+                        <label for="name">Podaj nazwę albumu</label>
+                    </div>
+
+                    <button type="submit" class="form-control btn btn-primary">Stwórz</button>
+                </form>
+            </div>
+            <!-- ikona utworzenia albumu -->
+            <div class="folder col-lg-2 col-md-3 col-sm-6" id="new-folder-button">
+                <img width="100%" src="ikony/dodaj_folder.svg">
+            </div>
+            <!-- wyświetlanie albumów -->
+            <?php
+            
+            ?>
+        </div>
+    </div>
+
+    <script>
+        const new_folder_button = document.querySelector("#new-folder-button");
+        const new_folder = document.querySelector("#new-folder");
+        const close_button = document.querySelector("#close-button");
+        const name = document.querySelector("#name");
+
+        new_folder_button.addEventListener("click", () => {
+            new_folder.style.display = "block";
+            name.focus();
+        });
+        close_button.addEventListener("click", () => {
+            new_folder.style.display = "none";
+        });
+
+        if(window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@
 }
 
 .profile-picture {
+    aspect-ratio: 1/1;
     border-radius: 100%;
     box-shadow: 0 0 20px #4e4e4e;
 }

@@ -24,7 +24,29 @@ if(isset($_SESSION["error_message"])) {
 <body>
     <!-- rejestracja -->
     <?php
-    
+    if(isset($_POST["login"])) {
+        $login = $_POST["login"];
+        $email = $_POST["email"];
+        $password = $_POST["password"];
+        $password_repeat = $_POST["password_repeat"];
+
+        if($password == $password_repeat) {
+            $conn = mysqli_connect($hostname, $db_username, $db_password, $database);
+
+            // sprawdzanie, czy login jest unikalny
+            $login_result = mysqli_query($conn, "SELECT login FROM fociarz WHERE login = '$login'");
+            $login_row = mysqli_fetch_array($login_result);
+            if(mysqli_num_rows($login_result) == 0) {
+                
+            }
+            else {
+                $_SESSION["error_message"] = "Login jest już zajęty";
+            }
+        }
+        else {
+            $_SESSION["error_message"] = "Hasła nie są identyczne";
+        }
+    }
     ?>
 
     <div class="container">
@@ -48,22 +70,22 @@ if(isset($_SESSION["error_message"])) {
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control" name="password" id="password" placeholder="hasło" required>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="hasło" minlength="8" required>
                     <label for="password">Hasło</label>
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control" name="password_repeat" id="password_repeat" placeholder="hasło" required>
+                    <input type="password" class="form-control" name="password_repeat" id="password_repeat" placeholder="hasło" minlength="8" required>
                     <label for="password_repeat">Powtórz hasło</label>
                 </div>
+                
+                <p class="error-message"><?php if(isset($_SESSION["error_message"])) echo $_SESSION["error_message"];?></p>
 
                 <div class="mb-3">
+                    <label for="profile-picture">Wybierz zdjęcie profilowe</label>
                     <input class="form-control" type="file" id="profile-picture" required>
-                    <img width="100%" id="profile-picture-preview">
+                    <img class="mt-3 profile-picture" width="100%" id="profile-picture-preview" src="../default-profile.png">
                 </div>
-
-
-                <p class="error-message"><?php if(isset($_SESSION["error_message"])) echo $_SESSION["error_message"];?></p>
 
                 <button type="submit" class="form-control btn btn-primary">Zarejestruj</button>
                 <p class="form-text text-muted">Masz już konto? Kliknij <a href="../logowanie">tutaj</a> aby się zalogować</p>

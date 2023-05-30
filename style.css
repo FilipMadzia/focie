@@ -46,6 +46,10 @@
     transform: translate(-50%, 0);
     color: black;
 }
+.image-name {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
 
 .album-link:hover p {
     color: white;

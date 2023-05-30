@@ -59,6 +59,11 @@ if(isset($_SESSION["error_message"])) {
     if(isset($_FILES["image"]["name"])) {
         if(strtolower(pathinfo(basename($_FILES["image"]["name"]), PATHINFO_EXTENSION)) == "jpg" || strtolower(pathinfo(basename($_FILES["image"]["name"]), PATHINFO_EXTENSION)) == "png") {
             $image_name = basename($_FILES["image"]["name"]);
+
+            while(file_exists("../fociarz/".$_SESSION["login"]."/".$nazwa."/".$image_name)) {
+                $image_name = "(kopia)".$image_name;
+            }
+
             $image_query = mysqli_query($conn, "INSERT INTO zdjecie(nazwa, data_dodania, id_album) VALUES('$image_name', NOW(), (SELECT id_album FROM album WHERE nazwa = '$nazwa'));");
             
             // zapisanie zdjęcia
@@ -91,12 +96,15 @@ if(isset($_SESSION["error_message"])) {
             <?php
             $conn = mysqli_connect($hostname, $db_username, $db_password, $database);
 
-            $result = mysqli_query($conn, "SELECT nazwa, data_dodania, id_album FROM zdjecie WHERE id_album = (SELECT id_album FROM album WHERE nazwa = (SELECT nazwa FROM album WHERE nazwa = '$nazwa'));");
+            $result = mysqli_query($conn, "SELECT nazwa, data_dodania, id_album FROM zdjecie WHERE id_album = (SELECT id_album FROM album WHERE nazwa = (SELECT nazwa FROM album WHERE nazwa = '$nazwa')) ORDER BY data_dodania DESC;");
             while($row = mysqli_fetch_array($result)) {
                 $image = $_SESSION["login"]."/".$nazwa."/".$row["nazwa"];
                 ?>
                 <div class="image col-lg-2 col-md-3 col-sm-6">
-                    <img width="100%" style="aspect-ratio: 1/1" src="../fociarz/<?php echo $image;?>" alt="<?php echo $row["nazwa"];?>">
+                    <a href="../fociarz/<?php echo $image;?>" download>
+                        <img width="100%" style="aspect-ratio: 1/1" src="../fociarz/<?php echo $image;?>" alt="<?php echo $row["nazwa"];?>">
+                    </a>
+                    <p class="image-name"><?php echo $row["nazwa"];?></p>
                 </div>
                 <?php
             }

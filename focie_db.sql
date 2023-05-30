@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 30 Maj 2023, 21:49
+-- Czas generowania: 31 Maj 2023, 00:08
 -- Wersja serwera: 10.4.24-MariaDB
 -- Wersja PHP: 8.1.5
 
@@ -34,13 +34,6 @@ CREATE TABLE `album` (
   `id_fociarz` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Zrzut danych tabeli `album`
---
-
-INSERT INTO `album` (`id_album`, `nazwa`, `data_utworzenia`, `id_fociarz`) VALUES
-(1, 'Wakacje 2022', '2023-05-30', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -54,13 +47,6 @@ CREATE TABLE `fociarz` (
   `haslo` varchar(32) DEFAULT NULL,
   `data_utworzenia` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Zrzut danych tabeli `fociarz`
---
-
-INSERT INTO `fociarz` (`id_fociarz`, `login`, `email`, `haslo`, `data_utworzenia`) VALUES
-(1, 'test', 'test@test', 'test', '2023-05-30');
 
 -- --------------------------------------------------------
 
@@ -107,13 +93,13 @@ ALTER TABLE `zdjecie`
 -- AUTO_INCREMENT dla tabeli `album`
 --
 ALTER TABLE `album`
-  MODIFY `id_album` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_album` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT dla tabeli `fociarz`
 --
 ALTER TABLE `fociarz`
-  MODIFY `id_fociarz` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_fociarz` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT dla tabeli `zdjecie`

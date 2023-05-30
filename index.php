@@ -77,7 +77,19 @@ if(!isset($_SESSION["login"])) {
             </div>
             <!-- wyświetlanie albumów -->
             <?php
-            
+            $conn = mysqli_connect($hostname, $db_username, $db_password, $database);
+
+            $result = mysqli_query($conn, "SELECT nazwa FROM album WHERE id_fociarz = (SELECT id_fociarz FROM fociarz WHERE login = '$_SESSION[login]')");
+            while($row = mysqli_fetch_array($result)) {
+                ?>
+                <div class="folder col-lg-2 col-md-3 col-sm-6">
+                    <img width="100%" src="ikony/folder.svg">
+                    <p class="folder-name"><?php echo $row["nazwa"];?></p>
+                </div>
+                <?php
+            }
+
+            mysqli_close($conn);
             ?>
         </div>
     </div>

@@ -22,6 +22,8 @@
 
 .folder {
     cursor: pointer;
+    position: relative;
+    text-align: center;
 }
 
 #new-folder {
@@ -31,9 +33,15 @@
     background-color: #ffffff;
 }
 
-
 #close-button {
     position: absolute;
     right: 0;
     cursor: pointer;
+}
+
+.folder-name {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%, 0);
 }

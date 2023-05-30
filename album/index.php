@@ -46,18 +46,57 @@ if(isset($_SESSION["error_message"])) {
         </div>
     </nav>
 
+    <?php
+    $conn = mysqli_connect($hostname, $db_username, $db_password, $database);
+    $nazwa = $_GET["nazwa"];
+
+    // sprawdzenie, czy album istnieje
+    $album_query = mysqli_query($conn, "SELECT nazwa FROM album WHERE nazwa = '$nazwa';");
+    if(mysqli_num_rows($album_query) == 0) {
+        header("Location: ../../focie");
+    }
+
+    if(isset($_FILES["image"]["name"])) {
+        if(strtolower(pathinfo(basename($_FILES["image"]["name"]), PATHINFO_EXTENSION)) == "jpg" || strtolower(pathinfo(basename($_FILES["image"]["name"]), PATHINFO_EXTENSION)) == "png") {
+            $image_name = basename($_FILES["image"]["name"]);
+            $image_query = mysqli_query($conn, "INSERT INTO zdjecie(nazwa, data_dodania, id_album) VALUES('$image_name', NOW(), (SELECT id_album FROM album WHERE nazwa = '$nazwa'));");
+            
+            // zapisanie zdjęcia
+            move_uploaded_file($_FILES["image"]["tmp_name"], "../fociarz/".$_SESSION["login"]."/".$nazwa."/".$image_name);                  
+        }
+        else {
+            $_SESSION["error_message"] = "Plik w nieprawidłowym formacie";
+        }
+    }
+
+    mysqli_close($conn);
+    ?>
+
     <div class="container">
         <div class="row">
+            <!-- ukryte okno do przesłania zdjęcia -->
+            <div class="position-absolute col-lg-2 col-md-6 col-sm-12 top-50 start-50 translate-middle" id="upload-image">
+                <img id="close-button" src="../ikony/zamknij.svg" alt="Zamknij">
+                <h3>Prześlij plik</h3>
+
+                <form method="post" enctype="multipart/form-data">
+                    <input class="mt-4 mb-4" type="file" name="image" id="image" required>
+
+                    <button type="submit" class="form-control btn btn-primary">Stwórz</button>
+                </form>
+            </div>
+            <div class="image col-lg-2 col-md-3 col-sm-6" id="upload-image-button">
+                <img width="100%" src="../ikony/dodaj_zdjecie.svg">
+            </div>
             <?php
             $conn = mysqli_connect($hostname, $db_username, $db_password, $database);
-            $nazwa = $_GET["nazwa"];
 
             $result = mysqli_query($conn, "SELECT nazwa, data_dodania, id_album FROM zdjecie WHERE id_album = (SELECT id_album FROM album WHERE nazwa = (SELECT nazwa FROM album WHERE nazwa = '$nazwa'));");
             while($row = mysqli_fetch_array($result)) {
                 $image = $_SESSION["login"]."/".$nazwa."/".$row["nazwa"];
                 ?>
-                <div class="col-lg-2 col-md-3 col-sm-6">
-                    <img width="100%" src="../fociarz/<?php echo $image;?>" alt="<?php echo $nazwa;?>">
+                <div class="image col-lg-2 col-md-3 col-sm-6">
+                    <img width="100%" style="aspect-ratio: 1/1" src="../fociarz/<?php echo $image;?>" alt="<?php echo $row["nazwa"];?>">
                 </div>
                 <?php
             }
@@ -68,6 +107,23 @@ if(isset($_SESSION["error_message"])) {
     </div>
     
     <h1 class="error-message text-center"><?php if(isset($_SESSION["error_message"])){echo $_SESSION["error_message"];}?></h1>
+
+    <script>
+        const upload_image_button = document.querySelector("#upload-image-button");
+        const upload_image = document.querySelector("#upload-image");
+        const close_button = document.querySelector("#close-button");
+
+        upload_image_button.addEventListener("click", () => {
+            upload_image.style.display = "block";
+        });
+        close_button.addEventListener("click", () => {
+            upload_image.style.display = "none";
+        });
+
+        if(window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>

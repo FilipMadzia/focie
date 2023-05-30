@@ -20,13 +20,13 @@
     background-color: #6c757d;
 }
 
-.folder {
+.folder, .image {
     cursor: pointer;
     position: relative;
     text-align: center;
 }
 
-#new-folder {
+#new-folder, #upload-image {
     display: none;
     height: 175px;
     box-shadow: 0 0 20px #4e4e4e;

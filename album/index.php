@@ -79,6 +79,22 @@ if(isset($_SESSION["error_message"])) {
 
     <div class="container">
         <div class="row">
+            <!-- informacje o folderze -->
+            <div class="text-center col-lg-12 col-md-12 col-sm-12">
+                <?php
+                $conn = mysqli_connect($hostname, $db_username, $db_password, $database);
+
+                // ilosc zdjęć w albumie
+                $result = mysqli_query($conn, "SELECT COUNT(z.id_zdjecie) AS ilosc_zdjec FROM zdjecie z WHERE z.id_album = (SELECT id_album FROM album WHERE nazwa = '$nazwa');");
+                $photo_count = mysqli_fetch_array($result);
+                $photo_count = $photo_count["ilosc_zdjec"];
+
+                $data_utworzenia = mysqli_query($conn, "SELECT data_utworzenia FROM album WHERE nazwa = '$nazwa'");
+                $data_utworzenia = mysqli_fetch_column($data_utworzenia);
+                ?>
+
+                <p class="text-muted">Album: <?php echo "<span class='text-dark'>".$nazwa."</span>";?> Data utworzenia: <?php echo "<span class='text-dark'>".$data_utworzenia."</span>";?> Ilosć zdjęć: <?php echo "<span class='text-dark'>".$photo_count."</span>";?></p>
+            </div>
             <!-- ukryte okno do przesłania zdjęcia -->
             <div class="position-absolute col-lg-2 col-md-6 col-sm-12 top-50 start-50 translate-middle" id="upload-image">
                 <img id="close-button" src="../ikony/zamknij.svg" alt="Zamknij">

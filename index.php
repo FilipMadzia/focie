@@ -60,7 +60,7 @@ if(!isset($_SESSION["login"])) {
     <div class="container">
         <div class="row">
             <!-- ukryte okno do tworzenia albumu -->
-            <div class="position-absolute col-lg-2 col-md-6 col-sm-12 top-50 start-50 translate-middle" id="new-folder">
+            <div style="z-index: 1;" class="position-absolute col-lg-2 col-md-6 col-sm-12 top-50 start-50 translate-middle" id="new-folder">
                 <img id="close-button" src="ikony/zamknij.svg" alt="Zamknij">
                 <h3>Nazwa albumu</h3>
 

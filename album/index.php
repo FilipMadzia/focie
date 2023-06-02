@@ -96,7 +96,7 @@ if(isset($_SESSION["error_message"])) {
                 <p class="text-muted">Album: <?php echo "<span class='text-dark'>".$nazwa."</span>";?> Data utworzenia: <?php echo "<span class='text-dark'>".$data_utworzenia."</span>";?> Ilosć zdjęć: <?php echo "<span class='text-dark'>".$photo_count."</span>";?></p>
             </div>
             <!-- ukryte okno do przesłania zdjęcia -->
-            <div class="position-absolute col-lg-2 col-md-6 col-sm-12 top-50 start-50 translate-middle" id="upload-image">
+            <div style="z-index: 1;" class="position-absolute col-lg-2 col-md-6 col-sm-12 top-50 start-50 translate-middle" id="upload-image">
                 <img id="close-button" src="../ikony/zamknij.svg" alt="Zamknij">
                 <h3>Prześlij plik</h3>
 

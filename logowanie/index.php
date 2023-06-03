@@ -5,6 +5,24 @@ include("../config.php");
 if(isset($_SESSION["login"])) {
     header("Location: ../../focie");
 }
+else {
+    if(isset($_COOKIE["stay_logged"])) {
+        $conn = mysqli_connect($hostname, $db_username, $db_password, $database);
+
+        $result = mysqli_query($conn, "SELECT login, haslo FROM fociarz WHERE (login = '$_COOKIE[login]' OR email = '$_COOKIE[login]') AND haslo = '$_COOKIE[password]'");
+        if(mysqli_num_rows($result) == 1) {
+            $_SESSION["login"] = $_COOKIE["login"];
+            header("Location: ../../focie");
+        }
+        else {
+            setcookie("stay_logged", "", time() - 60, "/");
+            setcookie("login", "", time() - 60, "/");
+            setcookie("password", "", time() - 60, "/");
+        }
+
+        mysqli_close($conn);
+    }
+}
 if(isset($_SESSION["error_message"])) {
     unset($_SESSION["error_message"]);
 }
@@ -36,6 +54,11 @@ if(isset($_SESSION["error_message"])) {
             $row = mysqli_fetch_array($result);
 
             $_SESSION["login"] = $row['login'];
+            if(isset($_POST["stay_logged"])) {
+                setcookie("stay_logged", "true", time() + (86400 * 30), "/");
+                setcookie("login", $login, time() + (86400 * 30), "/");
+                setcookie("password", $password, time() + (86400 * 30), "/");
+            }
             header("Location: ../../focie");
         }
         else {
@@ -64,6 +87,11 @@ if(isset($_SESSION["error_message"])) {
                 <div class="form-floating mb-3">
                     <input type="password" class="form-control" name="password" id="password" placeholder="hasło" required>
                     <label for="password">Hasło</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="stay_logged" id="stay-logged">
+                    <label class="form-check-label" for="stay-logged">Zapamiętaj moje dane</label>
                 </div>
 
                 <p class="error-message"><?php if(isset($_SESSION["error_message"])) echo $_SESSION["error_message"];?></p>

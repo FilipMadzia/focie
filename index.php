@@ -74,7 +74,7 @@ if(!isset($_SESSION["login"])) {
                 </form>
             </div>
             <!-- ikona utworzenia albumu -->
-            <div class="folder col-lg-2 col-md-3 col-sm-6" id="new-folder-button">
+            <div class="col-lg-2 col-md-3 col-sm-6" id="new-folder-button">
                 <img width="100%" src="ikony/dodaj_folder.svg">
             </div>
             <!-- wyświetlanie albumów -->
@@ -98,24 +98,7 @@ if(!isset($_SESSION["login"])) {
         </div>
     </div>
 
-    <script>
-        const new_folder_button = document.querySelector("#new-folder-button");
-        const new_folder = document.querySelector("#new-folder");
-        const close_button = document.querySelector("#close-button");
-        const name = document.querySelector("#name");
-
-        new_folder_button.addEventListener("click", () => {
-            new_folder.style.display = "block";
-            name.focus();
-        });
-        close_button.addEventListener("click", () => {
-            new_folder.style.display = "none";
-        });
-
-        if(window.history.replaceState) {
-            window.history.replaceState(null, null, window.location.href);
-        }
-    </script>
+    <script src="script.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>

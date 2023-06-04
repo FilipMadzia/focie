@@ -26,6 +26,10 @@
     text-align: center;
 }
 
+#new-folder-button {
+    cursor: pointer;
+}
+
 #new-folder, #upload-image {
     display: none;
     height: 175px;
@@ -53,4 +57,13 @@
 
 .album-link:hover p {
     color: white;
+}
+
+.options-menu {
+    position: absolute;
+    bottom: -20px;
+    width: 100%;
+    height: 50px;
+    border: 1px solid #000000;
+    background-color: #ffffff;
 }

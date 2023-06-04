@@ -6,7 +6,7 @@ if(isset($_SESSION["login"])) {
     header("Location: ../../focie");
 }
 else {
-    if(isset($_COOKIE["stay_logged"])) {
+    if(isset($_COOKIE["login"])) {
         $conn = mysqli_connect($hostname, $db_username, $db_password, $database);
 
         $result = mysqli_query($conn, "SELECT login, haslo FROM fociarz WHERE (login = '$_COOKIE[login]' OR email = '$_COOKIE[login]') AND haslo = '$_COOKIE[password]'");
@@ -15,7 +15,6 @@ else {
             header("Location: ../../focie");
         }
         else {
-            setcookie("stay_logged", "", time() - 60, "/");
             setcookie("login", "", time() - 60, "/");
             setcookie("password", "", time() - 60, "/");
         }
@@ -55,7 +54,6 @@ if(isset($_SESSION["error_message"])) {
 
             $_SESSION["login"] = $row['login'];
             if(isset($_POST["stay_logged"])) {
-                setcookie("stay_logged", "true", time() + (86400 * 30), "/");
                 setcookie("login", $login, time() + (86400 * 30), "/");
                 setcookie("password", $password, time() + (86400 * 30), "/");
             }

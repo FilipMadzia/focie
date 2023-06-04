@@ -68,13 +68,16 @@
     border: 1px solid #000000;
     background-color: #ffffff;
 }
-.options-menu a, p {
+.options-menu a, .options-menu span {
     display: block;
     width: 100%;
     color: #000000;
     text-decoration: none;
 }
-.options-menu a:hover, p:hover {
+.options-menu a {
+    color: #ff0000;
+}
+.options-menu a:hover, .options-menu span:hover {
     width: 100%;
     background-color: #e1e1e1;
 }

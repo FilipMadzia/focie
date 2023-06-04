@@ -20,8 +20,8 @@ for(let i = 0; i < folders.length; i++) {
         if(folders[i].childNodes.length < 4) {
             let options_menu = folders[i].appendChild(document.createElement("div"));
             options_menu.classList.add("options-menu");
-            options_menu.innerHTML += "<a href='usun_album/?name=" + folders[i].querySelector("a").querySelector("p").innerHTML + "'>Usuń</a>";
-            options_menu.innerHTML += "<p>Zmień nazwę</p>";
+            options_menu.innerHTML += "<span>Zmień nazwę</span>";
+            options_menu.innerHTML += "<a href='usun_album/?nazwa=" + folders[i].querySelector("a").querySelector("p").innerHTML + "'>Usuń</a>";
             
             // usuwanie poprzednich menu opcji
             for(let j = 0; j < folders.length; j++) {

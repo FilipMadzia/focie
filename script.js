@@ -12,6 +12,10 @@ close_button.addEventListener("click", () => {
 });
 
 const folders = document.querySelectorAll(".folder");
+const new_name = document.querySelector("#new-name");
+const close_button_2 = document.querySelector("#close-button-2");
+const new_name_input = document.querySelector("#new-name-input");
+const current_name = document.querySelector("#current-name");
 
 for(let i = 0; i < folders.length; i++) {
     folders[i].addEventListener("contextmenu", (e) => {
@@ -34,7 +38,18 @@ for(let i = 0; i < folders.length; i++) {
             folders[i].removeChild(folders[i].querySelector("div"));
         }
     });
+
+    folders[i].addEventListener("click", () => {
+        new_name.style.display = "block";
+        new_name_input.focus();
+        current_name.value = folders[i].querySelector("a").querySelector("p").innerHTML;
+    });
 }
+
+close_button_2.addEventListener("click", () => {
+    new_name.style.display = "none";
+});
+
 
 if(window.history.replaceState) {
     window.history.replaceState(null, null, window.location.href);

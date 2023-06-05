@@ -14,5 +14,5 @@ mysqli_query($conn, "DELETE FROM album WHERE nazwa = '$nazwa' AND id_fociarz = (
 
 mysqli_close($conn);
 
-header("Location: ../logowanie");
+header("Location: ../../focie");
 ?>

@@ -56,11 +56,24 @@ if(!isset($_SESSION["login"])) {
         mkdir("fociarz/".$_SESSION["login"]."/".$name);
     }
     ?>
+
+    <!-- zmiana nazwy albumu -->
+    <?php
+    if(isset($_POST["new_name"])) {
+        $conn = mysqli_connect($hostname, $db_username, $db_password, $database);
+        $new_name = $_POST["new_name"];
+        $current_name = $_POST["current_name"];
+
+        $new_album_query = mysqli_query($conn, "UPDATE album SET nazwa = '$new_name' WHERE id_fociarz = (SELECT id_fociarz FROM fociarz WHERE login = '$_SESSION[login]') AND nazwa = '$current_name';");
+
+        mysqli_close($conn);
+    }
+    ?>
     
     <div class="container">
         <div class="row">
             <!-- ukryte okno do tworzenia albumu -->
-            <div style="z-index: 1;" class="position-absolute col-lg-2 col-md-6 col-sm-12 top-50 start-50 translate-middle" id="new-folder">
+            <div style="z-index: 2;" class="position-absolute col-lg-2 col-md-6 col-sm-12 top-50 start-50 translate-middle" id="new-folder">
                 <img id="close-button" src="ikony/zamknij.svg" alt="Zamknij">
                 <h3>Nazwa albumu</h3>
 
@@ -71,6 +84,21 @@ if(!isset($_SESSION["login"])) {
                     </div>
 
                     <button type="submit" class="form-control btn btn-primary">Stwórz</button>
+                </form>
+            </div>
+            <!-- ukryte okno do zmiany nazwy albumu -->
+            <div style="z-index: 2;" class="position-absolute col-lg-2 col-md-6 col-sm-12 top-50 start-50 translate-middle" id="new-name">
+                <img id="close-button-2" src="ikony/zamknij.svg" alt="Zamknij">
+                <h3>Nowa nazwa</h3>
+
+                <form method="post">
+                    <div class="form-floating mt-3 mb-3">
+                        <input type="text" class="form-control" name="new_name" id="new-name-input" placeholder="Nowa nazwa albumu" required>
+                        <label for="new_name">Podaj nową nazwę albumu</label>
+                    </div>
+                    <input type="hidden" name="current_name" id="current-name">
+
+                    <button type="submit" class="form-control btn btn-primary">Zmień nazwę albumu</button>
                 </form>
             </div>
             <!-- ikona utworzenia albumu -->

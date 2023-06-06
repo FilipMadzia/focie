@@ -24,7 +24,7 @@ for(let i = 0; i < folders.length; i++) {
         if(folders[i].childNodes.length < 4) {
             let options_menu = folders[i].appendChild(document.createElement("div"));
             options_menu.classList.add("options-menu");
-            options_menu.innerHTML += "<span>Zmień nazwę</span>";
+            options_menu.innerHTML += "<span id=menu-" + i + ">Zmień nazwę</span>";
             options_menu.innerHTML += "<a href='usun_album/?nazwa=" + folders[i].querySelector("a").querySelector("p").innerHTML + "'>Usuń</a>";
             
             // usuwanie poprzednich menu opcji
@@ -33,16 +33,16 @@ for(let i = 0; i < folders.length; i++) {
                     folders[j].removeChild(folders[j].querySelector("div"));
                 }
             }
+
+            options_menu.addEventListener("click", () => {
+                new_name.style.display = "block";
+                new_name_input.focus();
+                current_name.value = folders[i].querySelector("a").querySelector("p").innerHTML;
+            });
         }
         else {
             folders[i].removeChild(folders[i].querySelector("div"));
         }
-    });
-
-    folders[i].addEventListener("click", () => {
-        new_name.style.display = "block";
-        new_name_input.focus();
-        current_name.value = folders[i].querySelector("a").querySelector("p").innerHTML;
     });
 }
 

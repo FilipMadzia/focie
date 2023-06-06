@@ -103,7 +103,7 @@ if(isset($_SESSION["error_message"])) {
                 <form method="post" enctype="multipart/form-data">
                     <input class="mt-4 mb-4" type="file" name="image" id="image" required>
 
-                    <button type="submit" class="form-control btn btn-primary">Stwórz</button>
+                    <button type="submit" class="form-control btn btn-primary">Prześlij</button>
                 </form>
             </div>
             <div class="image col-lg-2 col-md-3 col-sm-6" id="upload-image-button">

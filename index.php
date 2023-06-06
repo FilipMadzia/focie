@@ -65,6 +65,7 @@ if(!isset($_SESSION["login"])) {
         $current_name = $_POST["current_name"];
 
         $new_album_query = mysqli_query($conn, "UPDATE album SET nazwa = '$new_name' WHERE id_fociarz = (SELECT id_fociarz FROM fociarz WHERE login = '$_SESSION[login]') AND nazwa = '$current_name';");
+        rename("fociarz/".$_SESSION["login"]."/".$current_name, "fociarz/".$_SESSION["login"]."/".$new_name);
 
         mysqli_close($conn);
     }

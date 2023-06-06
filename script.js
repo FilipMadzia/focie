@@ -34,7 +34,7 @@ for(let i = 0; i < folders.length; i++) {
                 }
             }
 
-            options_menu.addEventListener("click", () => {
+            options_menu.querySelector("span").addEventListener("click", () => {
                 new_name.style.display = "block";
                 new_name_input.focus();
                 current_name.value = folders[i].querySelector("a").querySelector("p").innerHTML;

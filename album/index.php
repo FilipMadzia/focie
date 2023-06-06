@@ -57,20 +57,22 @@ if(isset($_SESSION["error_message"])) {
     }
 
     if(isset($_FILES["image"]["name"])) {
-        if(strtolower(pathinfo(basename($_FILES["image"]["name"]), PATHINFO_EXTENSION)) == "jpg" || strtolower(pathinfo(basename($_FILES["image"]["name"]), PATHINFO_EXTENSION)) == "png") {
-            $image_name = basename($_FILES["image"]["name"]);
-
-            while(file_exists("../fociarz/".$_SESSION["login"]."/".$nazwa."/".$image_name)) {
-                $image_name = "(kopia)".$image_name;
+        for($i = 0; $i < count($_FILES["image"]["name"]); $i++) {
+            if(strtolower(pathinfo(basename($_FILES["image"]["name"][$i]), PATHINFO_EXTENSION)) == "jpg" || strtolower(pathinfo(basename($_FILES["image"]["name"][$i]), PATHINFO_EXTENSION)) == "png") {
+                $image_name = basename($_FILES["image"]["name"][$i]);
+    
+                while(file_exists("../fociarz/".$_SESSION["login"]."/".$nazwa."/".$image_name)) {
+                    $image_name = "(kopia)".$image_name;
+                }
+    
+                $image_query = mysqli_query($conn, "INSERT INTO zdjecie(nazwa, data_dodania, id_album) VALUES('$image_name', NOW(), (SELECT id_album FROM album WHERE nazwa = '$nazwa'));");
+                
+                // zapisanie zdjęcia
+                move_uploaded_file($_FILES["image"]["tmp_name"][$i], "../fociarz/".$_SESSION["login"]."/".$nazwa."/".$image_name);                  
             }
-
-            $image_query = mysqli_query($conn, "INSERT INTO zdjecie(nazwa, data_dodania, id_album) VALUES('$image_name', NOW(), (SELECT id_album FROM album WHERE nazwa = '$nazwa'));");
-            
-            // zapisanie zdjęcia
-            move_uploaded_file($_FILES["image"]["tmp_name"], "../fociarz/".$_SESSION["login"]."/".$nazwa."/".$image_name);                  
-        }
-        else {
-            $_SESSION["error_message"] = "Plik w nieprawidłowym formacie";
+            else {
+                $_SESSION["error_message"] = "Plik w nieprawidłowym formacie";
+            }
         }
     }
 
@@ -98,10 +100,10 @@ if(isset($_SESSION["error_message"])) {
             <!-- ukryte okno do przesłania zdjęcia -->
             <div style="z-index: 1;" class="position-absolute col-lg-2 col-md-6 col-sm-12 top-50 start-50 translate-middle" id="upload-image">
                 <img id="close-button" src="../ikony/zamknij.svg" alt="Zamknij">
-                <h3>Prześlij plik</h3>
+                <h3>Prześlij zdjęcia</h3>
 
                 <form method="post" enctype="multipart/form-data">
-                    <input class="mt-4 mb-4" type="file" name="image" id="image" required>
+                    <input class="mt-4 mb-4" type="file" name="image[]" id="image" multiple required>
 
                     <button type="submit" class="form-control btn btn-primary">Prześlij</button>
                 </form>

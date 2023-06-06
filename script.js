@@ -50,7 +50,6 @@ close_button_2.addEventListener("click", () => {
     new_name.style.display = "none";
 });
 
-
 if(window.history.replaceState) {
     window.history.replaceState(null, null, window.location.href);
 }

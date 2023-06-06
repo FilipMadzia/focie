@@ -30,6 +30,10 @@
     cursor: pointer;
 }
 
+#upload-image-button {
+    cursor: pointer;
+}
+
 #new-folder, #upload-image, #new-name {
     display: none;
     height: 175px;
@@ -80,4 +84,23 @@
 .options-menu a:hover, .options-menu span:hover {
     width: 100%;
     background-color: #e1e1e1;
+}
+
+.image-viewer {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    height: 100vh;
+    transform: translate(-50%, 0);
+}
+.image-viewer img {
+    height: 100%;
+}
+
+#close-image {
+    cursor: pointer;
+    position: absolute;
+    width: 200px;
+    top: 0;
+    transform: translate(-100%, -40%);
 }

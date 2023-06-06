@@ -5,6 +5,9 @@ include("config.php");
 if(!isset($_SESSION["login"])) {
     header("Location: logowanie");
 }
+if(isset($_SESSION["error_message"])) {
+    unset($_SESSION["error_message"]);
+}
 ?>
 
 <!DOCTYPE html>
@@ -49,11 +52,17 @@ if(!isset($_SESSION["login"])) {
         $conn = mysqli_connect($hostname, $db_username, $db_password, $database);
         $name = $_POST["name"];
 
-        $new_album_query = mysqli_query($conn, "INSERT INTO album(nazwa, data_utworzenia, id_fociarz) VALUES('$name', NOW(), (SELECT id_fociarz FROM fociarz WHERE login = '$_SESSION[login]'));");
+        $albums_with_same_name = mysqli_query($conn, "SELECT nazwa FROM album WHERE nazwa = '$name'");
+        
+        if(mysqli_num_rows($albums_with_same_name) == 0) {
+            $new_album_query = mysqli_query($conn, "INSERT INTO album(nazwa, data_utworzenia, id_fociarz) VALUES('$name', NOW(), (SELECT id_fociarz FROM fociarz WHERE login = '$_SESSION[login]'));");
 
-        mysqli_close($conn);
-
-        mkdir("fociarz/".$_SESSION["login"]."/".$name);
+            mkdir("fociarz/".$_SESSION["login"]."/".$name);
+            mysqli_close($conn);
+        }
+        else {
+            $_SESSION["error_message"] = "Album o takiej nazwie już istnieje";
+        }
     }
     ?>
 
@@ -73,6 +82,13 @@ if(!isset($_SESSION["login"])) {
     
     <div class="container">
         <div class="row">
+            <h1 class="text-center text-danger">
+                <?php
+                if(isset($_SESSION["error_message"])) {
+                    echo $_SESSION["error_message"];
+                }
+                ?>
+            </h1>
             <!-- ukryte okno do tworzenia albumu -->
             <div style="z-index: 2;" class="position-absolute col-lg-2 col-md-6 col-sm-12 top-50 start-50 translate-middle" id="new-folder">
                 <img id="close-button" src="ikony/zamknij.svg" alt="Zamknij">

@@ -108,9 +108,10 @@ if(isset($_SESSION["error_message"])) {
                     <button type="submit" class="form-control btn btn-primary">Prześlij</button>
                 </form>
             </div>
-            <div class="image col-lg-2 col-md-3 col-sm-6" id="upload-image-button">
+            <div class="col-lg-2 col-md-3 col-sm-6" id="upload-image-button">
                 <img width="100%" src="../ikony/dodaj_zdjecie.svg">
             </div>
+            <!-- wyświetlanie zdjęć -->
             <?php
             $conn = mysqli_connect($hostname, $db_username, $db_password, $database);
 
@@ -119,9 +120,7 @@ if(isset($_SESSION["error_message"])) {
                 $image = $_SESSION["login"]."/".$nazwa."/".$row["nazwa"];
                 ?>
                 <div class="image col-lg-2 col-md-3 col-sm-6">
-                    <a href="../fociarz/<?php echo $image;?>" download>
-                        <img width="100%" style="aspect-ratio: 1/1" src="../fociarz/<?php echo $image;?>" alt="<?php echo $row["nazwa"];?>">
-                    </a>
+                    <img width="100%" style="aspect-ratio: 1/1" src="../fociarz/<?php echo $image;?>" alt="<?php echo $row["nazwa"];?>">
                     <p class="image-name"><?php echo $row["nazwa"];?></p>
                 </div>
                 <?php
@@ -134,22 +133,7 @@ if(isset($_SESSION["error_message"])) {
     
     <h1 class="error-message text-center"><?php if(isset($_SESSION["error_message"])){echo $_SESSION["error_message"];}?></h1>
 
-    <script>
-        const upload_image_button = document.querySelector("#upload-image-button");
-        const upload_image = document.querySelector("#upload-image");
-        const close_button = document.querySelector("#close-button");
-
-        upload_image_button.addEventListener("click", () => {
-            upload_image.style.display = "block";
-        });
-        close_button.addEventListener("click", () => {
-            upload_image.style.display = "none";
-        });
-
-        if(window.history.replaceState) {
-            window.history.replaceState(null, null, window.location.href);
-        }
-    </script>
+    <script src="script.js"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>

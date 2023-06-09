@@ -70,11 +70,19 @@ if(isset($_SESSION["error_message"])) {
     <?php
     if(isset($_POST["new_name"])) {
         $conn = mysqli_connect($hostname, $db_username, $db_password, $database);
-        $new_name = $_POST["new_name"];
-        $current_name = $_POST["current_name"];
+		$new_name = $_POST["new_name"];
+		$albums_with_same_name = mysqli_query($conn, "SELECT nazwa FROM album WHERE nazwa = '$new_name'");
+        
+        if(mysqli_num_rows($albums_with_same_name) == 0) {
+			$new_name = $_POST["new_name"];
+			$current_name = $_POST["current_name"];
 
-        $new_album_query = mysqli_query($conn, "UPDATE album SET nazwa = '$new_name' WHERE id_fociarz = (SELECT id_fociarz FROM fociarz WHERE login = '$_SESSION[login]') AND nazwa = '$current_name';");
-        rename("fociarz/".$_SESSION["login"]."/".$current_name, "fociarz/".$_SESSION["login"]."/".$new_name);
+			$new_album_query = mysqli_query($conn, "UPDATE album SET nazwa = '$new_name' WHERE id_fociarz = (SELECT id_fociarz FROM fociarz WHERE login = '$_SESSION[login]') AND nazwa = '$current_name';");
+			rename("fociarz/".$_SESSION["login"]."/".$current_name, "fociarz/".$_SESSION["login"]."/".$new_name);
+		}
+		else {
+            $_SESSION["error_message"] = "Album o takiej nazwie już istnieje";
+        }
 
         mysqli_close($conn);
     }

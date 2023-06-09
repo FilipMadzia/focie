@@ -79,7 +79,7 @@ if(isset($_SESSION["error_message"])) {
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" name="email" id="email" placeholder="email" required>
+                    <input type="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" title="Zły format adresu email" class="form-control" name="email" id="email" placeholder="email" required>
                     <label for="email">Email</label>
                 </div>
 
